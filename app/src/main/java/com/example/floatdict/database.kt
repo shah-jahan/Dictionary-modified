@@ -11,15 +11,11 @@ data class DictionaryWord(
     var english_word : String = "",
     var part_of_speech : String = "",
     var malayalam_definition : String = ""
-){
-    public fun malayalamString(): String{
-        return this.malayalam_definition
-    }
-}
+) {}
 //end of entity
 
 @Dao
-interface dataQuery{
+interface DataQuery {
     @Query("SELECT * FROM DictionaryWord WHERE english_word LIKE :title")
     fun getword(title:String):List<DictionaryWord>
 
@@ -28,13 +24,14 @@ interface dataQuery{
 }
 //end of dao
 
-@Database(entities = arrayOf(DictionaryWord::class),version = 1)
+@Database(entities = [DictionaryWord::class], version = 1)
 abstract class AppDatabase:RoomDatabase(){
     //initialising dao abstract methods
-    abstract fun findMeaning():dataQuery
+    abstract fun findMeaning(): DataQuery
     companion object{
         fun getInstance(context: Context):AppDatabase{
-            var instance = Room.databaseBuilder(context,AppDatabase::class.java,
+            val instance = Room.databaseBuilder(
+                context, AppDatabase::class.java,
                 "TheDatabase2"
             ).
             createFromAsset("databases/dictionary.db")
